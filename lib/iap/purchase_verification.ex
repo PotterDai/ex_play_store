@@ -18,17 +18,25 @@ defmodule ExPlayStore.PurchaseVerification do
   def fetch_receipt(package_name, product_id, token) do
     auth_token = OAuthToken.get()
     headers = %{"Authorization" => "Bearer " <> auth_token.access_token}
-    
-    @url
+
+    response = @url
     |> Keyword.update(:package_name, nil, fn(_) -> package_name end)
     |> Keyword.update(:product_id, nil, fn(_) -> product_id end)
     |> Keyword.update(:token, nil, fn(_) -> token end)
     |> Keyword.values
     |> Enum.join("")
     |> Tesla.get([headers: headers])
-    |> Map.get(:body)
-    |> Poison.decode!
-    |> as_struct()
+
+    case response.status do
+      200 ->
+        receipt = response
+                  |> Map.get(:body)
+                  |> Poison.decode!
+                  |> as_struct()
+        {:ok, receipt}
+      err_code ->
+        {:error, err_code, response.body}
+    end
   end
 
   defp as_struct(%{
