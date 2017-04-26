@@ -34,8 +34,8 @@ defmodule ExPlayStore.Mixfile do
   defp deps do
     [
       {:ex_doc, ">= 0.0.0", only: :dev},
-      {:syringe, "~> 0.10.0"},
-      {:poison, "~> 3.0.0"},
+      {:syringe, "~> 0.10.8"},
+      {:poison, "~> 3.1"},
       {:tesla, "~> 0.6.0"},
       {:ibrowse, "~> 4.2"},
       {:env_config, "~> 0.1.0"},
