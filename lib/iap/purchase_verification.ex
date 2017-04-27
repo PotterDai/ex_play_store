@@ -29,8 +29,7 @@ defmodule ExPlayStore.PurchaseVerification do
 
     case response.status do
       200 ->
-        receipt = response
-                  |> Map.get(:body)
+        receipt = response.body
                   |> Poison.decode!
                   |> as_struct()
         {:ok, receipt}
